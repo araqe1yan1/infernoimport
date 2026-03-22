@@ -1,0 +1,139 @@
+#ob {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+.log {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background-color: black;
+    border-radius: 8px 8px 0 0;
+}
+.log img {
+    height: 50px;
+    margin-right: 10px;
+}
+.log p {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+#ob::before {
+    content: '';
+    position: absolute;
+    z-index: -2;
+    left: -50%;
+    top: -50%;
+    width: 200%;
+    height: 200%;
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: 50% 50%, 50% 50%;
+    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+    background-image: linear-gradient(#FF8C00, #FF8C00), linear-gradient(#696969, #696969), linear-gradient(#FF8C00, #FF8C00), linear-gradient(#696969, #696969);
+    animation: anim-ob 4s linear infinite;
+}
+#ob::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 6px;
+    top: 6px;
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
+    background: black;
+    border-radius: 5px;
+}
+@keyframes anim-ob {
+    100% {
+        transform: rotate(1turn);
+    }
+}
+.hover:hover {
+    background-color: orange;
+    width: 200px;
+}
+.kl {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    box-shadow: 0 6px #999;
+    background-color: orange;
+    font-size: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+}
+.kl:hover {
+    background-color: green;
+}
+.kl:active {
+    background-color: #3e8e41;
+    box-shadow: 0 3px #666;
+    transform: translateY(3px);
+}
+.in {
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 5px;
+    font-weight: 900;
+    font-size: 20px;
+    color: orange;
+    text-align: left;
+}
+#calc {
+    padding-left: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+}
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #555;
+}
+#co {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20px;
+    padding-left: 30px;
+    width: 500px;
+    color: white;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="google-site-verification" content="kNqhoPj1xWY95vxTC-NXlZ5GIRx5GwsPaY6Agh2tRQc" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Armenian&family=Lato:wght@100;700&family=Roboto:wght@100;400;700&display=swap" rel="stylesheet" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="ob">
+        <div id="calc">
+            <p class="in">Կուրս "EUR/USD":</p>
+            <input type="number" id="usd" placeholder="Օրինակ` 1.0890" class="hover" style="border-radius: 8px" />
+            <br />
+            
+            <p class="in">Մեքենայի արժեքը:</p>
+            <input type="number" id="price" placeholder="Մեքենայի արժեքը:" class="hover" style="border-radius: 8px" />
+            <br />
+            
+            <p class="in">Աճուրդ:</p>
+            <select id="auction" class="hover" style="border-radius: 8px" onchange="mynewfunction()">
+                <option value="copart">copart</option>
+                <option value="iaai">iaai</option>
+            </select>
+            <br />
+            
+            <p class="in">Փոխադրում:</p>
+            <select id="shipping" class="hover" style="border-radius: 10px; width: 170px">
+                <option value="" disabled selected>Ընտրեք նավահանգիստը</option>
+            </select>
+
+            <select id="largeshipping" hidden class="hover" style="border-radius: 8px; width: 170px">
+                <option value="" disabled selected>Ընտրեք նավահանգիստը</option>
+            </select>
+
+            <p style="margin-bottom: 3px; font-weight: 700; font-size: 15px; color: #3bff6f;">Էլեկտրական:</p>
+            <input type="checkbox" id="myCheck">
+            
+            <p style="margin-bottom: 3px; font-weight: 700; font-size: 15px; color: #448bfc;">Sublot:</p>
+            <input type="checkbox" id="myCheck1">
+            <br />
+
+            <p class="in">Թողարկման տարին:</p>
+            <select id="year" class="hover" style="border-radius: 8px">
+                <option disabled selected value="0">Ընտրեք տարեթիվը</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+            <br />
+
+            <p class="in">Շարժիչի ծավալը:</p>
+            <input type="number" id="engine" placeholder="Օրինակ` 2.0" class="hover" style="border-radius: 8px" />
+            <br />
+
+            <button id="calculateBtn" class="kl" onclick="calculateCosts()" style="font-weight: 700">Հաշվել</button>
+        </div>
+
+        <div id="co">
+            <div id="screenshot-target" style="display: grid; grid-template-columns: 1fr; gap: 0; font-family: 'Armenian', sans-serif;">
+                <div class="log" style="background-color: black; padding: 10px; text-align: center; display: flex; align-items: center; justify-content: center;">
+                    <img src="https://cdn.glitch.global/0a6a17fe-2186-4c71-9587-ae915d5484a4/photo_5276094855161958845_y-removebg.png?v=1731942984756" alt="InfernoImport Logo" style="height: 50px; margin-right: 15px;">
+                    <p style="font-size: 24px; font-weight: bold; color: white; margin: 0;">InfernoImport</p>
+                </div>
+
+                <table border="1" style="border-collapse: collapse; width: 100%; font-family: 'Roboto', sans-serif; text-align: left;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Նկարագրություն</th>
+                            <th>Գումար</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="background-color: black; color: white; text-align: center; font-weight: bold;">1</td>
+                            <td style="background-color: #f16e26;">Մեքենայի արժեքը աճուրդում</td>
+                            <td id="dem" style="text-align: right; background-color: #f16e26;"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: black; color: white; text-align: center; font-weight: bold;">2</td>
+                            <td style="background-color: #f16e26;">FOB - աճուրդում միջնորդավճար</td>
+                            <td id="dem1" style="text-align: right; background-color: #f16e26;"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: black; color: white; text-align: center; font-weight: bold;">3</td>
+                            <td style="background-color: #f9ad34;">Տեղափոխում փակ կոնտեիներով</td>
+                            <td id="dem2" style="text-align: right; background-color: #f9ad34;"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: black; color: white; text-align: center; font-weight: bold;">4</td>
+                            <td style="background-color: #f9ad34;">Կազմակերպչական ծախսեր</td>
+                            <td id="dem3" style="text-align: right; background-color: #f9ad34;"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: black; color: white; text-align: center; font-weight: bold;">5</td>
+                            <td style="background-color: #393332; color: white;">Մաքսազերծում</td>
+                            <td id="dem4" style="text-align: right; background-color: #393332; color: white;"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: black; color: white; text-align: center; font-weight: bold;">6</td>
+                            <td style="background-color: #393332; color: white;">Շահութահարկ</td>
+                            <td id="dem5" style="text-align: right; background-color: #393332; color: white;"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: black; color: white; text-align: center; font-weight: bold;">7</td>
+                            <td style="background-color: #393332; color: white;">ՍՊԸ միջնորդավճար</td>
+                            <td id="dem6" style="text-align: right; background-color: #393332; color: white;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table border="1" style="border-collapse: collapse; width: 100%; font-family: 'Roboto', sans-serif;">
+                    <tr>
+                        <td style="width: 50%; font-size: 18px; text-align: center; font-weight: bold; background-color: white;">Ընդհանուր արժեք</td>
+                        <td id="dem7" style="text-align: right; width: 50%; font-weight: bold; background-color: white;"></td>
+                    </tr>
+                </table>
+                <table border="1" style="border-collapse: collapse; width: 100%; font-family: 'Roboto', sans-serif; font-size: 16px;">
+                    <tbody>
+                        <tr>
+                            <td id="dem8" style="background-color: #f16e26;"></td>
+                            <td style="font-size: 13px; background-color: white;">1 աշխատանքային օրվա ընթացքում</td>
+                        </tr>
+                        <tr>
+                            <td id="dem9" style="background-color: #f9ad34;"></td>
+                            <td style="font-size: 13px; background-color: white;">45 օրվա ընթացքում</td>
+                        </tr>
+                        <tr>
+                            <td id="dem10" style="color: white; background-color: #393332;"></td>
+                            <td style="font-size: 13px; background-color: white;">3 օրվա ընթացքում</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button id="screenshot-btn">Сделать скриншот</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
