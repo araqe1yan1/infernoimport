@@ -78,6 +78,7 @@ function calculateCosts() {
     }
     ras = Math.round((maqs + aah + bnap) * kurs);
 
+    // --- Модификаторы (Электро / Sublot) ---
     const isElec = document.getElementById("myCheck").checked;
     const isSublot = document.getElementById("myCheck1").checked;
     
@@ -85,21 +86,21 @@ function calculateCosts() {
     let orgCost = isElec && !isSublot ? 110 : 220;
     let finalRas = isElec && !isSublot ? Math.round(bnap1) : ras;
     let kom = 250;
-    let shah = (isElec && !isSublot) ? 0 : Math.round(((price + fob + 2315 + ras) * 0.036) + 100);
+    // Налог (shah) полностью удален из вычислений
     let one = Math.round(price + fob);
 
+    // --- Обновление интерфейса ---
     const setUI = (id, v) => document.getElementById(id).innerHTML = v + "$";
     setUI("dem", price);
     setUI("dem1", fob);
     setUI("dem2", shipCost);
     setUI("dem3", orgCost);
     setUI("dem4", finalRas);
-    setUI("dem5", shah);
-    setUI("dem6", kom);
-    setUI("dem7", price + fob + shipCost + orgCost + finalRas + shah + kom);
-    setUI("dem8", one);
-    setUI("dem9", shipCost + orgCost);
-    setUI("dem10", Math.round(finalRas + kom + shah));
+    setUI("dem5", kom); // Теперь это 6-я строка (Комиссия)
+    setUI("dem6", price + fob + shipCost + orgCost + finalRas + kom); // Итог (без налога)
+    setUI("dem7", one); // Платеж 1 дня
+    setUI("dem8", shipCost + orgCost); // Платеж 45 дней
+    setUI("dem9", Math.round(finalRas + kom)); // Платеж 3 дней (без налога)
 }
 
 document.getElementById('screenshot-btn').addEventListener('click', () => {
