@@ -136,12 +136,12 @@ p[style*="448bfc"] { color: #448bfc !important; margin-top: 0; font-size: 14px !
 /* Контейнер для скриншота */
 #screenshot-target {
     background: #ffffff; 
+    color: #111111; /* <--- ДОБАВИЛИ ЭТУ СТРОКУ: теперь текст в чеке темный */
     border-radius: 12px;
     overflow: hidden;
     width: 100%;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
-
 /* Шапка чека (Логотип) */
 .log {
     background-color: #0d0d12 !important;
@@ -170,10 +170,9 @@ table {
 table th, table td {
     padding: 10px 12px;
     font-size: 14px;
-    border: 1px solid #3a3a48;
+    border: 1px solid #d1d1d6; /* <--- Изменили цвет границ на светло-серый */
     word-wrap: break-word;
 }
-
 /* Настройки для ПЕРВОЙ таблицы (с расчетами - 3 колонки) */
 #screenshot-target table:nth-of-type(1) th:nth-child(1), 
 #screenshot-target table:nth-of-type(1) td:nth-child(1) { width: 8%; text-align: center; }
