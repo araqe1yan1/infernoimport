@@ -1,9 +1,23 @@
-// 1. ЗАГРУЗКА БАЗЫ ДАННЫХ ПРИ СТАРТЕ
+// 1. ЗАГРУЗКА БАЗЫ ДАННЫХ И КУРСА ВАЛЮТ ПРИ СТАРТЕ
 document.addEventListener("DOMContentLoaded", () => {
+    // Подгружаем порты из JSON
     fetch('database.json')
         .then(res => res.json())
         .then(data => populateSelects(data))
-        .catch(err => console.error('Ошибка:', err));
+        .catch(err => console.error('Ошибка загрузки портов:', err));
+
+    // Автоматически получаем свежий курс EUR/USD
+    fetch('https://api.frankfurter.app/latest?from=EUR&to=USD')
+        .then(res => res.json())
+        .then(data => {
+            const usdRate = data.rates.USD;
+            // Вставляем курс в поле ввода
+            document.getElementById('usd').value = usdRate;
+        })
+        .catch(err => {
+            console.error('Ошибка загрузки курса валют:', err);
+            // Если нет интернета или API недоступен, оставляем поле пустым для ручного ввода
+        });
 });
 
 // 2. ЗАПОЛНЕНИЕ ВЫПАДАЮЩИХ СПИСКОВ
