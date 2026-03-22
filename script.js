@@ -1,4 +1,7 @@
-// 1. ЗАГРУЗКА БАЗЫ ДАННЫХ И КУРСА ВАЛЮТ ПРИ СТАРТЕ
+// 1. ПЕРЕМЕННАЯ ДЛЯ КУРСА (Автоматически обновится из интернета)
+let currentUsdRate = 1;
+
+// 2. ЗАГРУЗКА БАЗЫ ДАННЫХ И КУРСА ВАЛЮТ ПРИ СТАРТЕ
 document.addEventListener("DOMContentLoaded", () => {
     // Подгружаем порты из JSON
     fetch('database.json')
@@ -6,21 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => populateSelects(data))
         .catch(err => console.error('Ошибка загрузки портов:', err));
 
-    // Автоматически получаем свежий курс EUR/USD
+    // Автоматически получаем свежий биржевой курс EUR/USD
     fetch('https://api.frankfurter.app/latest?from=EUR&to=USD')
         .then(res => res.json())
         .then(data => {
-            const usdRate = data.rates.USD;
-            // Вставляем курс в поле ввода
-            document.getElementById('usd').value = usdRate;
+            currentUsdRate = data.rates.USD; // Сохраняем курс в память скрипта
+            console.log("Текущий курс EUR/USD:", currentUsdRate);
         })
-        .catch(err => {
-            console.error('Ошибка загрузки курса валют:', err);
-            // Если нет интернета или API недоступен, оставляем поле пустым для ручного ввода
-        });
+        .catch(err => console.error('Ошибка загрузки курса валют:', err));
 });
 
-// 2. ЗАПОЛНЕНИЕ ВЫПАДАЮЩИХ СПИСКОВ
+// 3. ЗАПОЛНЕНИЕ ВЫПАДАЮЩИХ СПИСКОВ
 function populateSelects(db) {
     const copart = document.getElementById("shipping"), iaai = document.getElementById("largeshipping");
     const addOpts = (select, ports) => {
@@ -35,17 +34,20 @@ function populateSelects(db) {
     addOpts(iaai, db.iaai);
 }
 
-// 3. ПЕРЕКЛЮЧЕНИЕ АУКЦИОНОВ
+// 4. ПЕРЕКЛЮЧЕНИЕ АУКЦИОНОВ
 function mynewfunction() {
     const auction = document.getElementById("auction").value;
     document.getElementById("shipping").hidden = auction !== "copart";
     document.getElementById("largeshipping").hidden = auction !== "iaai";
 }
 
-// 4. ГЛАВНАЯ ФУНКЦИЯ РАСЧЕТА
+// 5. ГЛАВНАЯ ФУНКЦИЯ РАСЧЕТА
 function calculateCosts() {
     const val = id => parseFloat(document.getElementById(id).value) || 0;
-    const price = val("price"), year = val("year"), engine = val("engine"), kurs = val("usd") || 1;
+    const price = val("price"), year = val("year"), engine = val("engine");
+    
+    const kurs = currentUsdRate; // БЕРЕМ АВТОМАТИЧЕСКИЙ КУРС ИЗ ПАМЯТИ!
+    
     const auction = document.getElementById("auction").value;
     const activeSel = document.getElementById(auction === "copart" ? "shipping" : "largeshipping");
 
@@ -92,7 +94,7 @@ function calculateCosts() {
     let shah = (isElec && !isSublot) ? 0 : Math.round(((price + fob + 2315 + ras) * 0.036) + 100);
     let one = Math.round(price + fob);
 
-    // --- Обновление интерфейса (Одной функцией!) ---
+    // --- Обновление интерфейса ---
     const setUI = (id, v) => document.getElementById(id).innerHTML = v + "$";
     setUI("dem", price);
     setUI("dem1", fob);
@@ -107,7 +109,7 @@ function calculateCosts() {
     setUI("dem10", Math.round(finalRas + kom + shah));
 }
 
-// 5. СОХРАНЕНИЕ СКРИНШОТА
+// 6. СОХРАНЕНИЕ СКРИНШОТА
 document.getElementById('screenshot-btn').addEventListener('click', () => {
     html2canvas(document.getElementById('screenshot-target')).then(canvas => {
         canvas.toBlob(blob => {
